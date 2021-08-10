@@ -1,14 +1,10 @@
 const express = require('express');
-const router = express.Router();
-const Question = require('../db/Question');
-const question = require('../db/exampleData');
+const questions = require('../controllers/questions');
 
-router.get(`/questions`, (req, res) => {
-  Question.findAll()
-    .then(questions => {
-      res.send(questions);
-    })
-    .catch(err => console.log(err));
-});
+const router = express.Router();
+
+router
+  .get(`/all`, questions.getAllQuestions)
+  .get(`/:product_id`, questions.getQuestions)
 
 module.exports = router;
