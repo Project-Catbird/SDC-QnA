@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
+const { database, username, password } = require('./config');
 
-const db = new Sequelize('sdc-qna', 'postgres', 'password', {
+const db = new Sequelize(database, username, password, {
   host: 'localhost',
   dialect: 'postgres'
 });
