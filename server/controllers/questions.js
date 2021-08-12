@@ -19,27 +19,61 @@ module.exports = {
     };
 
     let questions = await query(`
-    SELECT q.id AS question_id, q.body AS question_body, q.date_written AS question_date, q.reported AS reported, u.user_name AS asker_name, q.helpful AS question_helpfulness, q.reported AS reported
-    FROM questions AS q
-    INNER JOIN users AS u
-    ON q.user_id = u.id
-    WHERE q.product_id = ${product_id}`);
+      SELECT
+        q.id AS question_id, q.body AS question_body, q.date_written AS question_date,
+        q.reported AS reported, u.user_name AS asker_name,
+        q.helpful AS question_helpfulness, q.reported AS reported
+      FROM
+        questions AS q
+      INNER JOIN
+        users AS u
+      ON
+        q.user_id = u.id
+      WHERE
+        q.product_id = ${product_id};`
+    );
 
     result.results = questions[0];
 
     for (let i = 0; i < result.results.length; i++) {
       const answer = await query(`
-      SELECT a.id as id, a.body as body, date_written AS date, u.user_name AS answerer_name, a.helpful AS helpfulness, ap.url AS photos
-      FROM answers AS a
-      LEFT JOIN answers_photos AS ap
-      ON a.id = ap.answer_id
-      LEFT JOIN users AS u
-      ON a.user_id = u.id
-      WHERE a.question_id = ${result.results[i].question_id}
-      `)
-      result.results[i].answer = answer[0];
+        SELECT
+          a.id as id, a.body as body, date_written AS date, u.user_name AS answerer_name,
+          a.helpful AS helpfulness, ap.url AS photos
+        FROM
+          answers AS a
+        LEFT JOIN
+          answers_photos AS ap
+        ON
+          a.id = ap.answer_id
+        LEFT JOIN
+          users AS u
+        ON
+          a.user_id = u.id
+        WHERE
+          a.question_id = ${result.results[i].question_id};
+      `);
+
+      const groupedAnswer = answer[0].reduce((acc, d) => {
+        const id = d.id;
+        if (!acc.hasOwnProperty(id)) {
+          if (d.photos) {
+            acc[id] = {...d, photos: [d.photos]};
+          } else {
+            acc[id] = {...d, photos: []};
+          }
+        } else {
+          acc[id].photos.push(d.photos);
+        }
+        return acc;
+
+      }, {});
+
+      result.results[i].answers = groupedAnswer;
     }
 
     res.send(result);
+
     }
+
   };
