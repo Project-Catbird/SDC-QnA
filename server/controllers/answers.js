@@ -10,10 +10,9 @@ module.exports = {
     };
 
     let answers = await Answers.getAnswers(question_id);
-    console.log(answers);
     result.results = answers;
 
     res.send(result);
   }
 
-  };
+};

@@ -17,6 +17,6 @@ module.exports = {
         q.product_id = ${product_id}
       LIMIT ${count};`
       );
-    return questions;
+    return questions[0];
   }
 }
