@@ -1,6 +1,6 @@
-const Models = require('../db/models/');
 const Questions = require('../models/questions');
 const Answers = require('../models/answers');
+const Users = require('../models/users');
 
 module.exports = {
   getQuestions: async (req, res) => {
@@ -10,7 +10,7 @@ module.exports = {
       results: []
     };
 
-    let questions = await Questions.getQuestions(product_id, count);
+    const questions = await Questions.getQuestions(product_id, count);
     result.results = questions;
 
     for (let i = 0; i < questions.length; i++) {
@@ -21,6 +21,17 @@ module.exports = {
 
     res.send(result);
 
+  },
+
+  postQuestions: async (req, res) => {
+    const { body, name, email, product_id } = req.body;
+    let users = await Users.getUser(name);
+    if (!users.length) {
+      users = Users.createUser(name, email);
+    }
+    let user_id = users[0].id;
+    const question = await Questions.postQuestion(product_id, body, user_id);
+    res.send(question);
   }
 
 };

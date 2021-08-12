@@ -1,4 +1,3 @@
-const Models = require('../db/models/');
 const Answers = require('../models/answers');
 
 module.exports = {

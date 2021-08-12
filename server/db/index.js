@@ -1,15 +1,23 @@
-const Sequelize = require('sequelize');
+const { Pool, Client } = require('pg')
 const { database, username, password } = require('./config/config');
 
-const db = new Sequelize(database, username, password, {
+const pool = new Pool({
+  user: username,
   host: 'localhost',
-  dialect: 'postgres'
+  database,
+  password,
+  port: 5432,
 });
 
-db.authenticate()
-  .then(() => {
-    console.log('Database connected!');
-  })
-  .catch(err => console.log(err));
+// pool.query(`SELECT * FROM users WHERE user_name = 'Andy Vo';`)
+//   .then(res => console.log(res.rows))
+//   .catch(err => console.log(err));
 
-module.exports = db;
+// pool.query(`
+//   INSERT INTO users (user_name, user_email)
+//   VALUES ('Hi theashgfhdare!', 'naldjwa@gmail.com') RETURNING *;`
+//   )
+//   .then(res => console.log(res.rows[0]))
+//   .catch(err => console.log(err));
+
+module.exports = pool;

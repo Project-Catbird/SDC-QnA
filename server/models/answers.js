@@ -1,8 +1,9 @@
 const query = require('./lib/query');
+const db = require('../db/');
 
 module.exports = {
   getAnswers: async (question_id, count = 5) => {
-    const answer = await query(`
+    const answer = await db.query(`
       SELECT
         a.id as id, a.body as body, date_written AS date, u.user_name AS answerer_name,
         a.helpful AS helpfulness, ap.url AS photos
@@ -21,7 +22,7 @@ module.exports = {
       LIMIT ${count};
     `);
 
-  const groupedAnswer = answer[0].reduce((acc, d) => {
+  const groupedAnswer = answer.rows.reduce((acc, d) => {
     const id = d.id;
     if (!acc.hasOwnProperty(id)) {
       if (d.photos) {

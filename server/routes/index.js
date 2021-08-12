@@ -7,5 +7,6 @@ const router = express.Router();
 router
   .get(`/`, questions.getQuestions)
   .get(`/answers`, answers.getAnswers)
+  .post(`/`, questions.postQuestions);
 
 module.exports = router;
