@@ -1,7 +1,8 @@
 const query = require('./lib/query');
 
 module.exports = {
-  getQuestions: async (product_id, count) => {
+  getQuestions: async (product_id, count = 5) => {
+
     const questions = await query(`
       SELECT
         q.id AS question_id, q.body AS question_body, q.date_written AS question_date,
@@ -17,6 +18,9 @@ module.exports = {
         q.product_id = ${product_id}
       LIMIT ${count};`
       );
+
     return questions[0];
+
   }
-}
+
+};

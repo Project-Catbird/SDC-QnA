@@ -4,7 +4,7 @@ const Answers = require('../models/answers');
 
 module.exports = {
   getQuestions: async (req, res) => {
-    const { product_id, page, count } = req.params;
+    const { product_id, page, count } = req.query;
     const result = {
       product_id,
       results: []
@@ -20,6 +20,7 @@ module.exports = {
     }
 
     res.send(result);
+
   }
 
 };

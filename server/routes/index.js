@@ -5,7 +5,7 @@ const answers = require('../controllers/answers');
 const router = express.Router();
 
 router
-  .get(`/:product_id/:page/:count`, questions.getQuestions)
-  .get(`/:question_id/answers`, answers.getAnswers)
+  .get(`/`, questions.getQuestions)
+  .get(`/answers`, answers.getAnswers)
 
 module.exports = router;
