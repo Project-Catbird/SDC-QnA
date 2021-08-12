@@ -9,6 +9,10 @@ const Answer = db.define('answers', {
   },
   question_id: {
     type: Sequelize.INTEGER,
+    references: {
+      model: 'questions',
+      key: 'id'
+    }
   },
   body: {
     type: Sequelize.STRING
@@ -25,7 +29,8 @@ const Answer = db.define('answers', {
   user_id: {
     type: Sequelize.INTEGER,
     references: {
-      deferrable: Sequelize.Deferrable.INITIALLY_DEFERRED
+      model: 'users',
+      key: 'id'
     }
   },
 
@@ -35,7 +40,5 @@ const Answer = db.define('answers', {
   createdAt: false,
   updatedAt: false
 });
-
-Answer.belongsTo(Question, {targetKey: 'id', foreignKey: 'question_id'});
 
 module.exports = Answer;

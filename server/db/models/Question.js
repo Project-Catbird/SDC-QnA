@@ -24,7 +24,8 @@ const Question = db.define('questions', {
   user_id: {
     type: Sequelize.INTEGER,
     references: {
-      deferrable: Sequelize.Deferrable.INITIALLY_DEFERRED
+      model: 'users',
+      key: 'id'
     }
   },
 
