@@ -1,3 +1,5 @@
 node_modules
 config.js
 *.csv
+newrelic.js
+*.log
