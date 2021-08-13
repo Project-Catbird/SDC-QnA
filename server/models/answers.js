@@ -18,7 +18,7 @@ module.exports = {
       ON
         a.user_id = u.id
       WHERE
-        a.question_id = ${question_id}
+        a.question_id = ${question_id} AND a.reported = 0
       LIMIT ${count};
     `);
 
