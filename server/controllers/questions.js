@@ -27,12 +27,25 @@ module.exports = {
     const { body, name, email, product_id } = req.body;
     let users = await Users.getUser(name);
     if (!users.length) {
-      newUser = await Users.createUser(name, email);
+      let newUser = await Users.createUser(name, email);
       users = newUsers.rows;
     }
     let user_id = users[0].id;
     const question = await Questions.postQuestion(product_id, body, user_id);
-    res.send(question);
-  }
+    if (question.length) {
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(400);
+    }
+  },
 
+  addHelpful: async (req, res) => {
+    const { question_id } = req.params;
+    const helpful = await Questions.addHelpful(question_id);
+    if (helpful.length) {
+      res.sendStatus(204);
+    } else {
+      res.sendStatus(400);
+    }
+  }
 };

@@ -16,7 +16,7 @@ module.exports = {
       ON
         q.user_id = u.id
       WHERE
-        q.product_id = ${product_id}
+        q.product_id = ${product_id} AND q.reported = 0
       LIMIT ${count};`
       );
 
@@ -30,6 +30,16 @@ module.exports = {
       VALUES (${product_id}, '${body}', '${date_written}', ${user_id}) RETURNING *`);
 
     return question.rows;
+  },
+
+  addHelpful: async (question_id) => {
+    const helpful = await (db.query(`
+      UPDATE questions
+      SET helpful = helpful + 1
+      WHERE id = ${question_id}
+      RETURNING *`));
+
+    return helpful.rows;
   }
 
 };

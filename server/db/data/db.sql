@@ -94,3 +94,4 @@ CREATE INDEX idx_answers_reported ON answers(reported);
 -- RESET INCREMENTING ID TO THE LAST ITEM IN THE TABLE
 SELECT setval('questions_id_seq', 3518963, true);
 SELECT setval('answers_id_seq', 6879306, true);
+SELECT setval('answers_photos_id_seq', 2063759, true);

@@ -6,8 +6,9 @@ const router = express.Router();
 
 router
   .get(`/`, questions.getQuestions)
-  .get(`/answers`, answers.getAnswers)
   .post(`/`, questions.postQuestion)
+  .put(`/:question_id/helpful`, questions.addHelpful)
+  .get(`/:question_id/answers`, answers.getAnswers)
   .post(`/answers`, answers.postAnswer);
 
 module.exports = router;
