@@ -47,5 +47,17 @@ module.exports = {
     } else {
       res.sendStatus(400);
     }
-  }
+  },
+
+  addReport: async (req, res) => {
+    const { question_id } = req.params;
+    const reported = await Questions.addReport(question_id);
+    if (reported.length) {
+      res.sendStatus(204);
+    } else {
+      res.sendStatus(400);
+    }
+  },
+
+
 };

@@ -40,6 +40,16 @@ module.exports = {
       RETURNING *`));
 
     return helpful.rows;
-  }
+  },
+
+  addReport: async (question_id) => {
+    const reported = await (db.query(`
+      UPDATE questions
+      SET reported = reported + 1
+      WHERE id = ${question_id}
+      RETURNING *`));
+
+    return reported.rows;
+  },
 
 };
