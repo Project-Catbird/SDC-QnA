@@ -39,6 +39,21 @@ module.exports = {
 
   return groupedAnswer;
 
+  },
+
+  postAnswer: async (question_id, body, user_id, photos = [], date_written = new Date().toISOString().slice(0, 10)) => {
+    const answer = await db.query(`
+      INSERT INTO answers (question_id, body, date_written, user_id)
+      VALUES (${question_id}, '${body}', '${date_written}', ${user_id}) RETURNING *`);
+
+    const answer_id = answer.rows[0].id;
+
+    for (let i = 0; i < photos.length; i++) {
+      let url = photos[i];
+      db.query(`INSERT INTO answers_photos (answer_id, url) VALUES (${answer_id}, '${url}')`);
+    }
+
+    return answer.rows;
   }
 
 };

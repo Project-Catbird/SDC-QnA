@@ -24,7 +24,7 @@ module.exports = {
 
   },
 
-  postQuestion: async (product_id, body, user_id, date_written = new Date()) => {
+  postQuestion: async (product_id, body, user_id, date_written = new Date().toISOString().slice(0, 10)) => {
     const question = await db.query(`
       INSERT INTO questions (product_id, body, date_written, user_id)
       VALUES (${product_id}, '${body}', '${date_written}', ${user_id}) RETURNING *`);

@@ -16,7 +16,7 @@ module.exports = {
       INSERT INTO users (user_name, user_email)
         VALUES ('${user_name}', '${user_email}') RETURNING *;`);
 
-    return users.rows;
+    return users;
   }
 
 };

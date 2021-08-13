@@ -23,11 +23,12 @@ module.exports = {
 
   },
 
-  postQuestions: async (req, res) => {
+  postQuestion: async (req, res) => {
     const { body, name, email, product_id } = req.body;
     let users = await Users.getUser(name);
     if (!users.length) {
-      users = Users.createUser(name, email);
+      newUser = await Users.createUser(name, email);
+      users = newUsers.rows;
     }
     let user_id = users[0].id;
     const question = await Questions.postQuestion(product_id, body, user_id);
