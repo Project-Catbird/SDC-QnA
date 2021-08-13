@@ -10,6 +10,8 @@ router
   .put(`/:question_id/helpful`, questions.addHelpful)
   .put(`/:question_id/report`, questions.addReport)
   .get(`/:question_id/answers`, answers.getAnswers)
-  .post(`/answers`, answers.postAnswer);
+  .post(`/answers`, answers.postAnswer)
+  .put(`/answers/:answer_id/helpful`, answers.addHelpful)
+  .put(`/answers/:answer_id/report`, answers.addReport)
 
 module.exports = router;

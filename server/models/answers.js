@@ -54,6 +54,27 @@ module.exports = {
     }
 
     return answer.rows;
-  }
+  },
+
+
+  addHelpful: async (answer_id) => {
+    const helpful = await (db.query(`
+      UPDATE answers
+      SET helpful = helpful + 1
+      WHERE id = ${answer_id}
+      RETURNING *`));
+
+    return helpful.rows;
+  },
+
+  addReport: async (answer_id) => {
+    const reported = await (db.query(`
+      UPDATE answers
+      SET reported = reported + 1
+      WHERE id = ${answer_id}
+      RETURNING *`));
+
+    return reported.rows;
+  },
 
 };
