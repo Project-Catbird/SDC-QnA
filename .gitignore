@@ -3,3 +3,4 @@ config.js
 *.csv
 newrelic.js
 *.log
+.DS_Store
