@@ -4,3 +4,4 @@ config.js
 newrelic.js
 *.log
 .DS_Store
+test.js
