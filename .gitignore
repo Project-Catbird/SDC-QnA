@@ -5,3 +5,5 @@ newrelic.js
 *.log
 .DS_Store
 sdcqna.sql
+test.js
+script.js
