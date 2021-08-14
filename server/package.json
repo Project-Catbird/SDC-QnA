@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/index.js",
-    "seedDB": "node server/db/Seed.js",
+    "start": "nodemon index.js",
+    "seedDB": "node db/Seed.js",
     "stress-1": "k6 run --vus 1 --duration 30s script.js"
   },
   "repository": {
