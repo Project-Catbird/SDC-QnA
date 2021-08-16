@@ -52,6 +52,8 @@ Response
 }
 ```
 
+---
+
 ### Answers List
 
 GET /qa/questions/:question_id/answers
@@ -87,6 +89,7 @@ Response
     }
 }
 ```
+---
 
 ### Add a Question
 
@@ -105,6 +108,8 @@ product_id|integer|Required ID of the Product for which the question is posted
 Response
 
 **Status: 201 CREATED**
+
+---
 
 ### Add an Answer
 
@@ -129,6 +134,8 @@ Response
 
 **Status: 201 CREATED**
 
+---
+
 ### Mark Question as Helpful
 
 PUT /qa/questions/:question_id/helpful
@@ -143,6 +150,8 @@ question_id|integer|Required ID of the question to update
 Response
 
 **Status: 204 NO CONTENT**
+
+---
 
 ### Report Question
 
@@ -159,6 +168,8 @@ Response
 
 **Status: 204 NO CONTENT**
 
+---
+
 ### Mark Answer as Helpful
 
 PUT /qa/questions/answers/:answer_id/helpful
@@ -173,6 +184,8 @@ answer_id|integer|Required ID of the answer to update
 Response
 
 **Status: 204 NO CONTENT**
+
+---
 
 ### Report Question
 
