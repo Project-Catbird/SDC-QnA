@@ -1,4 +1,3 @@
-const query = require('./lib/query');
 const db = require('../db/');
 
 module.exports = {
