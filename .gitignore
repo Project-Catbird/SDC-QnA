@@ -1,6 +1,5 @@
 node_modules
 config.js
-*.csv
 newrelic.js
 *.log
 .DS_Store
@@ -8,4 +7,4 @@ sdcqna.sql
 test.js
 script.js
 files
-
+csv
