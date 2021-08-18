@@ -7,6 +7,7 @@ const Question = require('./routes/');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.static('files'));
 app.get('/', (req, res) => res.send('QUESTIONS'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
