@@ -14,11 +14,18 @@ module.exports = {
       const questions = await Questions.getQuestions(product_id, count);
       result.results = questions;
 
-      for (let i = 0; i < questions.length; i++) {
-        let question_id = questions[i].question_id;
-        let answers = await Questions.getAnswers(question_id);
-        result.results[i].answers = answers;
-      }
+      const questionIds = questions.reduce((acc, d) => {
+        acc.push(d.question_id);
+        return acc;
+      }, []);
+
+      const answers = await Questions.getAnswers(questionIds);
+
+      result.results.forEach(question => {
+        if (answers.hasOwnProperty(question.question_id)) {
+          question.answers = answers[question.question_id];
+        }
+      });
 
       res.send(result);
     } catch (error) {
