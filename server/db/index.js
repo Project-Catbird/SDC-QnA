@@ -6,7 +6,10 @@ const pool = new Pool({
   host: '3.239.104.125',
   database,
   password,
-  port: 5432
+  port: 5432,
+  max: 50,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000
 });
 
 module.exports = pool;
