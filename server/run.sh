@@ -1,1 +1,1 @@
-docker run -d -p 3000:3000 IMG_ID
+docker run -d -p 3000:3000 57ae2a4bc3d7

@@ -24,6 +24,8 @@ module.exports = {
       result.results.forEach(question => {
         if (answers.hasOwnProperty(question.question_id)) {
           question.answers = answers[question.question_id];
+        } else {
+          question.answers = {};
         }
       });
 
