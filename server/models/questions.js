@@ -21,7 +21,7 @@ module.exports = {
 
       return questions.rows;
     } catch (error) {
-      res.status(400).json({message: error});
+      console.log(error);
     }
   },
 
@@ -56,16 +56,20 @@ module.exports = {
         LIMIT ${count};
       `);
 
-    const groupedAnswer = answer.rows.reduce((acc, d) => {
-      acc[d.question_id] = {[d.id]: d};
-      delete acc[d.question_id][d.id].question_id;
-      return acc;
-    }, {});
-
-    return groupedAnswer;
+    if (answer.rows.length) {
+      const groupedAnswer = answer.rows.reduce((acc, d) => {
+        acc[d.question_id] = {[d.id]: d};
+        delete acc[d.question_id][d.id].question_id;
+        return acc;
+      }, {});
+      return groupedAnswer;
+    } else {
+      return answer.rows;
+    }
 
     } catch (error) {
-      res.status(400).json({message: error});
+      console.log('question_id', question_id);
+      console.log(error);
     }
   },
 
@@ -76,7 +80,7 @@ module.exports = {
         VALUES (${product_id}, '${body}', '${date_written}', ${user_id}) RETURNING *`);
       return question.rows;
     } catch (error) {
-      res.status(400).json({message: error});
+      console.log(error);
     }
   },
 
@@ -90,7 +94,7 @@ module.exports = {
 
       return helpful.rows;
     } catch (error) {
-      res.status(400).json({message: error});
+      console.log(error);
     }
   },
 
@@ -104,7 +108,7 @@ module.exports = {
 
       return reported.rows;
     } catch (error) {
-      res.status(400).json({message: error});
+      console.log(error);
     }
   },
 

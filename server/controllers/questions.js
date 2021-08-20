@@ -19,15 +19,18 @@ module.exports = {
         return acc;
       }, []);
 
-      const answers = await Questions.getAnswers(questionIds);
+      if (questionIds.length) {
+        const answers = await Questions.getAnswers(questionIds);
 
-      result.results.forEach(question => {
-        if (answers.hasOwnProperty(question.question_id)) {
-          question.answers = answers[question.question_id];
-        } else {
-          question.answers = {};
-        }
-      });
+        result.results.forEach(question => {
+          if (answers.hasOwnProperty(question.question_id)) {
+            question.answers = answers[question.question_id];
+          } else {
+            question.answers = {};
+          }
+        });
+
+      }
 
       res.send(result);
     } catch (error) {
