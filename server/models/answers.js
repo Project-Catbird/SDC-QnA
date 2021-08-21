@@ -22,7 +22,7 @@ module.exports = {
       ON
         a.user_id = u.id
       WHERE
-        reported = 0 AND
+        a.reported = 0 AND
         question_id = ${question_id}
       GROUP BY
         a.id, question_id, body, date_written, u.user_name

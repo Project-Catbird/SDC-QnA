@@ -3,72 +3,50 @@ const db = require('../db/');
 module.exports = {
   getQuestions: async (product_id, count = 5) => {
     try {
-      const questions = await db.query(`
-        SELECT
-          q.id AS question_id, q.body AS question_body, q.date_written AS question_date,
-          q.reported AS reported, u.user_name AS asker_name,
-          q.helpful AS question_helpfulness, q.reported AS reported
-        FROM
-          questions AS q
-        INNER JOIN
-          users AS u
-        ON
-          q.user_id = u.id
-        WHERE
-          q.product_id = ${product_id} AND q.reported = 0
-        LIMIT ${count};`
-        );
-
-      return questions.rows;
-    } catch (error) {
-      console.log(error);
-    }
-  },
-
-  getAnswers: async (question_id, count = 5) => {
-    try {
-      const answer = await db.query(`
-        SELECT
-          a.question_id as question_id,
-          a.id as id,
-          body,
-          date_written AS date,
-          u.user_name AS answerer_name,
-          a.helpful AS helpfulness,
-          ARRAY_REMOVE(ARRAY_AGG(CASE WHEN answers_photos.url IS NOT NULL THEN answers_photos.url ELSE NULL END), NULL) as photos
-        FROM
+      const query = `
+      SELECT ${product_id} AS product_id,
+      coalesce(json_agg(json_build_object(
+        'question_id', q.id, 'question_body', q.body, 'question_date', q.date_written,
+        'question_helpfulness', q.helpful, 'reported', q.reported, 'asker_name', u.user_name, 'answers',
+        (
+          SELECT coalesce(json_object_agg(a.id, json_build_object(
+            'id', a.id, 'body', a.body, 'date', a.date_written,
+            'answerer_name', u.user_name, 'helpfulness', a.helpful, 'photos', (
+            SELECT
+              coalesce(json_agg(json_build_object(
+                'id', answers_photos.id, 'url', answers_photos.url
+                )), '[]'::json)
+            FROM
+              answers_photos
+            WHERE
+              answers_photos.answer_id = a.id
+              )
+              )), '{}'::json)
+          FROM
           answers AS a
-        LEFT JOIN
-          answers_photos
-        ON
-          a.id = answers_photos.answer_id
-        LEFT JOIN
+          LEFT JOIN
           users AS u
-        ON
+          ON
           a.user_id = u.id
-        WHERE
-          reported = 0 AND
-          question_id = ANY(ARRAY[${question_id}])
-        GROUP BY
-          question_id, a.id, question_id, body, date_written, u.user_name
-        ORDER BY
-          a.id
-        LIMIT ${count};
-      `);
+          WHERE
+          a.question_id = q.id AND
+          a.reported = 0
+        )
+      )), '[]'::json) AS results
+      FROM
+      questions as q
+      LEFT JOIN
+      users AS u
+      ON
+      q.user_id = u.id
+      WHERE
+      q.product_id = ${product_id} AND
+      q.reported = 0;
+      `
+      const questions = await db.query(query);
 
-    if (answer.rows.length) {
-      const groupedAnswer = answer.rows.reduce((acc, d) => {
-        acc[d.question_id] = {[d.id]: d};
-        delete acc[d.question_id][d.id].question_id;
-        return acc;
-      }, {});
-      return groupedAnswer;
-    } else {
-      return answer.rows;
-    }
-
+      return questions.rows[0];
     } catch (error) {
-      console.log('question_id', question_id);
       console.log(error);
     }
   },

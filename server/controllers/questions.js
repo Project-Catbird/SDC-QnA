@@ -6,33 +6,10 @@ module.exports = {
   getQuestions: async (req, res) => {
     try {
       const { product_id, page, count } = req.query;
-      const result = {
-        product_id,
-        results: []
-      };
 
       const questions = await Questions.getQuestions(product_id, count);
-      result.results = questions;
 
-      const questionIds = questions.reduce((acc, d) => {
-        acc.push(d.question_id);
-        return acc;
-      }, []);
-
-      if (questionIds.length) {
-        const answers = await Questions.getAnswers(questionIds);
-
-        result.results.forEach(question => {
-          if (answers.hasOwnProperty(question.question_id)) {
-            question.answers = answers[question.question_id];
-          } else {
-            question.answers = {};
-          }
-        });
-
-      }
-
-      res.send(result);
+      res.send(questions);
     } catch (error) {
       res.status(400).json({message: error});
     }
