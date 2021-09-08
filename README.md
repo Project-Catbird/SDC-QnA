@@ -9,6 +9,7 @@ GET /qa/questions
 > Retrieves a list of questions for a particular product. This list does not include any reported questions.
 
 Parameters
+
 Parameter | Type | Description
 -|-|-
 product_id|integer|Specifies the product for which to retrieve questions.
@@ -61,11 +62,13 @@ GET /qa/questions/:question_id/answers
 > Returns answers for a given question. This list _does not_ include any reported answers.
 
 Parameters
+
 Parameter | Type | Description
 -|-|-
 question_id|integer|Required ID of the question for wich answers are needed
 
 Query Parameters
+
 Parameter | Type | Description
 -|-|-
 count|integer|Specifies how many results per page to return. Default 5.
@@ -115,6 +118,7 @@ POST /qa/questions
 > Adds a question for the given product
 
 Body Parameters
+
 Parameter | Type | Description
 -|-|-
 body|text|Text of question being asked
@@ -135,11 +139,13 @@ POST /qa/questions/answers
 > Adds an answer for the given question
 
 Query Parameters
+
 Parameter | Type | Description
 -|-|-
 question_id|integer|Required ID of the question to post the answer for
 
 Body Parameters
+
 Parameter | Type | Description
 -|-|-
 body|text|Text of question being asked
@@ -160,6 +166,7 @@ PUT /qa/questions/:question_id/helpful
 > Updates a question to show it was found helpful.
 
 Parameters
+
 Parameter | Type | Description
 -|-|-
 question_id|integer|Required ID of the question to update
@@ -177,6 +184,7 @@ PUT /qa/questions/:question_id/report
 > Updates a question to show it was reported. Note, this action does not delete the question, but the question will not be returned in the above GET request.
 
 Parameters
+
 Parameter | Type | Description
 -|-|-
 question_id|integer|Required ID of the question to update
@@ -194,6 +202,7 @@ PUT /qa/questions/answers/:answer_id/helpful
 > Updates an answer to show it was found helpful.
 
 Parameters
+
 Parameter | Type | Description
 -|-|-
 answer_id|integer|Required ID of the answer to update
@@ -211,6 +220,7 @@ PUT /qa/questions/answers/:answer_id/report
 > Updates an answer to show it has been reported. Note, this action does not delete the answer, but the answer will not be returned in the above GET request.
 
 Parameters
+
 Parameter | Type | Description
 -|-|-
 answer_id|integer|Required ID of the answer to update
